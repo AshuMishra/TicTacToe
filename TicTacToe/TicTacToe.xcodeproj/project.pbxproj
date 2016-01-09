@@ -97,11 +97,10 @@
 		4E9824501C4125BF00B620DA /* TicTacToe */ = {
 			isa = PBXGroup;
 			children = (
-				4E9824511C4125BF00B620DA /* AppDelegate.swift */,
-				4E9824531C4125BF00B620DA /* ViewController.swift */,
-				4E9824551C4125BF00B620DA /* Main.storyboard */,
+				4E9824821C412C5800B620DA /* StoryBoards */,
+				4E9824811C412C4300B620DA /* Controller Class */,
+				4E9824801C412C3800B620DA /* Delegate Files */,
 				4E9824581C4125BF00B620DA /* Assets.xcassets */,
-				4E98245A1C4125BF00B620DA /* LaunchScreen.storyboard */,
 				4E98245D1C4125BF00B620DA /* Info.plist */,
 			);
 			path = TicTacToe;
@@ -123,6 +122,31 @@
 				4E9824731C4125C000B620DA /* Info.plist */,
 			);
 			path = TicTacToeUITests;
+			sourceTree = "<group>";
+		};
+		4E9824801C412C3800B620DA /* Delegate Files */ = {
+			isa = PBXGroup;
+			children = (
+				4E9824511C4125BF00B620DA /* AppDelegate.swift */,
+			);
+			name = "Delegate Files";
+			sourceTree = "<group>";
+		};
+		4E9824811C412C4300B620DA /* Controller Class */ = {
+			isa = PBXGroup;
+			children = (
+				4E9824531C4125BF00B620DA /* ViewController.swift */,
+			);
+			name = "Controller Class";
+			sourceTree = "<group>";
+		};
+		4E9824821C412C5800B620DA /* StoryBoards */ = {
+			isa = PBXGroup;
+			children = (
+				4E9824551C4125BF00B620DA /* Main.storyboard */,
+				4E98245A1C4125BF00B620DA /* LaunchScreen.storyboard */,
+			);
+			name = StoryBoards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
