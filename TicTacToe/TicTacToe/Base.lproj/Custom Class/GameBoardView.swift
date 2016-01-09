@@ -9,7 +9,35 @@
 import Foundation
 import UIKit
 
-typealias GameOverCompletion = (winningPlayer: Int?) -> Void
+enum Player {
+	case first
+	case second
+	case none
+
+	func valueForPlayer()-> Int {
+		switch self {
+		case .first:
+			return 0
+		case .second:
+			return 1
+		case .none:
+			return -1
+		}
+	}
+
+	func image()-> UIImage {
+		switch self {
+		case .first:
+			return UIImage(named: "Triangle.png")!
+		case .second:
+			return UIImage(named: "circle.png")!
+		case .none:
+			return UIImage()
+		}
+	}
+}
+
+typealias GameOverCompletion = (winningPlayer: Player) -> Void
 
 class GameBoardView: UIView {
 
@@ -24,15 +52,18 @@ class GameBoardView: UIView {
 	@IBOutlet weak var button7: UIButton!
 	@IBOutlet weak var button8: UIButton!
 
-	var currentPlayer: Int = 0
-	var winningPlayer: Int = -1
-	var gameState = [-1, -1, -1, -1, -1, -1, -1, -1, -1]
-	var winningCombinations = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
-
+	var currentPlayer: Player = Player.first
+	var winningPlayer: Player = Player.none
+	private var gameState = [Player](count: 9, repeatedValue: .none)
+	private let winningCombinations = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
 	var gameOverCompletion: GameOverCompletion?
-	func markPosition(position: Int, player: Int) {
+
+	func markPosition(position: Int, player: Player) {
+		if gameState[position] != .none {
+			return
+		}
 		gameState[position] = player
-		let image = imageForPlayer(player)
+		let image = player.image()
 		switch(position) {
 		case 0:
 			button0.setImage(image, forState: UIControlState.Normal)
@@ -58,8 +89,10 @@ class GameBoardView: UIView {
 	}
 
 	func startGame() {
-		gameState = [-1, -1, -1, -1, -1, -1, -1, -1, -1]
-		winningPlayer = -1
+
+		winningPlayer = .none
+		gameState = [Player](count: 9, repeatedValue: winningPlayer)
+
 		button0.setImage(nil, forState: UIControlState.Normal)
 		button1.setImage(nil, forState: UIControlState.Normal)
 		button2.setImage(nil, forState: UIControlState.Normal)
@@ -71,21 +104,10 @@ class GameBoardView: UIView {
 		button8.setImage(nil, forState: UIControlState.Normal)
 	}
 
-	func imageForPlayer(player: Int)-> UIImage {
-		switch(player) {
-		case 0:
-			return UIImage(named: "Triangle.png")!
-		case 1:
-			return UIImage(named: "circle.png")!
-		default:
-			return UIImage()
-		}
-	}
-
 	func didCurrentPlayerWin(currentPosition: Int)-> Bool {
 		for combination in winningCombinations {
 			if(combination.contains(currentPosition)) {
-				var set = Set<Int>()
+				var set = Set<Player>()
 				for index in combination {
 					set.insert(gameState[index])
 				}
@@ -98,10 +120,10 @@ class GameBoardView: UIView {
 	}
 
 	func isGameOver()-> Bool {
-		if !gameState.contains(-1) && winningPlayer == -1 {
+		if !gameState.contains(Player.none) && winningPlayer == .none {
 			//Match drawn
 			return true
-		}else if winningPlayer != -1 {
+		}else if winningPlayer != .none {
 			// Someone won
 			return true
 		}else {
@@ -112,7 +134,7 @@ class GameBoardView: UIView {
 		let buttonIndex = sender.tag
 		if isGameOver() {
 			return
-		}else if gameState.contains(-1) && winningPlayer == -1 {
+		}else if gameState.contains(.none) && winningPlayer == .none {
 			markPosition(buttonIndex, player: currentPlayer)
 			if didCurrentPlayerWin(buttonIndex) {
 				winningPlayer = currentPlayer
@@ -123,10 +145,10 @@ class GameBoardView: UIView {
 			}
 		}else {
 			if let gameOverCompletion = gameOverCompletion {
-				gameOverCompletion(winningPlayer: -1)
+				gameOverCompletion(winningPlayer: .none)
 			}
 
 		}
-		currentPlayer = currentPlayer == 0 ? 1 : 0
+		currentPlayer = currentPlayer == .first ? .second : .first
 	}
 }
