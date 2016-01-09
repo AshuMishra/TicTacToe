@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+typealias GameOverCompletion = (winningPlayer: Int?) -> Void
+
 class GameBoardView: UIView {
 
 	@IBOutlet weak var boardView: UIView!
@@ -23,9 +25,11 @@ class GameBoardView: UIView {
 	@IBOutlet weak var button8: UIButton!
 
 	var currentPlayer: Int = 0
-
+	var winningPlayer: Int = -1
 	var gameState = [-1, -1, -1, -1, -1, -1, -1, -1, -1]
+	var winningCombinations = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
 
+	var gameOverCompletion: GameOverCompletion?
 	func markPosition(position: Int, player: Int) {
 		gameState[position] = player
 		let image = imageForPlayer(player)
@@ -53,7 +57,9 @@ class GameBoardView: UIView {
 		}
 	}
 
-	func resetPositions() {
+	func startGame() {
+		gameState = [-1, -1, -1, -1, -1, -1, -1, -1, -1]
+		winningPlayer = -1
 		button0.setImage(nil, forState: UIControlState.Normal)
 		button1.setImage(nil, forState: UIControlState.Normal)
 		button2.setImage(nil, forState: UIControlState.Normal)
@@ -76,9 +82,51 @@ class GameBoardView: UIView {
 		}
 	}
 
+	func didCurrentPlayerWin(currentPosition: Int)-> Bool {
+		for combination in winningCombinations {
+			if(combination.contains(currentPosition)) {
+				var set = Set<Int>()
+				for index in combination {
+					set.insert(gameState[index])
+				}
+				if set.count == 1 {
+					return true
+				}
+			}
+		}
+		return false
+	}
+
+	func isGameOver()-> Bool {
+		if !gameState.contains(-1) && winningPlayer == -1 {
+			//Match drawn
+			return true
+		}else if winningPlayer != -1 {
+			// Someone won
+			return true
+		}else {
+			return false
+		}
+	}
 	@IBAction func buttonPressed(sender: UIButton) {
 		let buttonIndex = sender.tag
-		markPosition(buttonIndex, player: currentPlayer)
+		if isGameOver() {
+			return
+		}else if gameState.contains(-1) && winningPlayer == -1 {
+			markPosition(buttonIndex, player: currentPlayer)
+			if didCurrentPlayerWin(buttonIndex) {
+				winningPlayer = currentPlayer
+				if let gameOverCompletion = gameOverCompletion {
+					gameOverCompletion(winningPlayer: currentPlayer)
+				}
+
+			}
+		}else {
+			if let gameOverCompletion = gameOverCompletion {
+				gameOverCompletion(winningPlayer: -1)
+			}
+
+		}
 		currentPlayer = currentPlayer == 0 ? 1 : 0
 	}
 }
