@@ -14,6 +14,7 @@
 		4E98245C1C4125BF00B620DA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E98245A1C4125BF00B620DA /* LaunchScreen.storyboard */; };
 		4E9824671C4125C000B620DA /* TicTacToeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9824661C4125C000B620DA /* TicTacToeTests.swift */; };
 		4E9824721C4125C000B620DA /* TicTacToeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9824711C4125C000B620DA /* TicTacToeUITests.swift */; };
+		4E9824851C413C6B00B620DA /* GameBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9824841C413C6B00B620DA /* GameBoardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		4E98246D1C4125C000B620DA /* TicTacToeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TicTacToeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E9824711C4125C000B620DA /* TicTacToeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeUITests.swift; sourceTree = "<group>"; };
 		4E9824731C4125C000B620DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4E9824841C413C6B00B620DA /* GameBoardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameBoardView.swift; path = "Base.lproj/Custom Class/GameBoardView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 		4E9824501C4125BF00B620DA /* TicTacToe */ = {
 			isa = PBXGroup;
 			children = (
+				4E9824831C413C3800B620DA /* Custom Class */,
 				4E9824821C412C5800B620DA /* StoryBoards */,
 				4E9824811C412C4300B620DA /* Controller Class */,
 				4E9824801C412C3800B620DA /* Delegate Files */,
@@ -147,6 +150,14 @@
 				4E98245A1C4125BF00B620DA /* LaunchScreen.storyboard */,
 			);
 			name = StoryBoards;
+			sourceTree = "<group>";
+		};
+		4E9824831C413C3800B620DA /* Custom Class */ = {
+			isa = PBXGroup;
+			children = (
+				4E9824841C413C6B00B620DA /* GameBoardView.swift */,
+			);
+			name = "Custom Class";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -282,6 +293,7 @@
 			files = (
 				4E9824541C4125BF00B620DA /* ViewController.swift in Sources */,
 				4E9824521C4125BF00B620DA /* AppDelegate.swift in Sources */,
+				4E9824851C413C6B00B620DA /* GameBoardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,6 +520,7 @@
 				4E9824781C4125C000B620DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4E9824791C4125C000B620DA /* Build configuration list for PBXNativeTarget "TicTacToeTests" */ = {
 			isa = XCConfigurationList;
@@ -516,6 +529,7 @@
 				4E98247B1C4125C000B620DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4E98247C1C4125C000B620DA /* Build configuration list for PBXNativeTarget "TicTacToeUITests" */ = {
 			isa = XCConfigurationList;
@@ -524,6 +538,7 @@
 				4E98247E1C4125C000B620DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
