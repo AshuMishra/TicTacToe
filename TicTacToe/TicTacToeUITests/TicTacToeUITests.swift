@@ -2,7 +2,7 @@
 //  TicTacToeUITests.swift
 //  TicTacToeUITests
 //
-//  Created by Susmita Horrow on 09/01/16.
+//  Created by Ashutosh Mishra on 09/01/16.
 //  Copyright © 2016 Ashutosh. All rights reserved.
 //
 

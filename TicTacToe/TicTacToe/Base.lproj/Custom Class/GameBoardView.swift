@@ -2,42 +2,16 @@
 //  GameBoardView.swift
 //  TicTacToe
 //
-//  Created by Susmita Horrow on 09/01/16.
+//  Created by Ashutosh Mishra on 09/01/16.
 //  Copyright © 2016 Ashutosh. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-enum Player {
-	case first
-	case second
-	case none
-
-	func valueForPlayer()-> Int {
-		switch self {
-		case .first:
-			return 0
-		case .second:
-			return 1
-		case .none:
-			return -1
-		}
-	}
-
-	func image()-> UIImage {
-		switch self {
-		case .first:
-			return UIImage(named: "Triangle.png")!
-		case .second:
-			return UIImage(named: "circle.png")!
-		case .none:
-			return UIImage()
-		}
-	}
+protocol GameBoardViewDelegate {
+	func handleButtonPress(index: Int)
 }
-
-typealias GameOverCompletion = (winningPlayer: Player) -> Void
 
 class GameBoardView: UIView {
 
@@ -52,17 +26,9 @@ class GameBoardView: UIView {
 	@IBOutlet weak var button7: UIButton!
 	@IBOutlet weak var button8: UIButton!
 
-	var currentPlayer: Player = Player.first
-	var winningPlayer: Player = Player.none
-	private var gameState = [Player](count: 9, repeatedValue: .none)
-	private let winningCombinations = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
-	var gameOverCompletion: GameOverCompletion?
+	var delegate: GameBoardViewDelegate?
 
 	func markPosition(position: Int, player: Player) {
-		if gameState[position] != .none {
-			return
-		}
-		gameState[position] = player
 		let image = player.image()
 		switch(position) {
 		case 0:
@@ -88,11 +54,7 @@ class GameBoardView: UIView {
 		}
 	}
 
-	func startGame() {
-
-		winningPlayer = .none
-		gameState = [Player](count: 9, repeatedValue: winningPlayer)
-
+	func resetPositions() {
 		button0.setImage(nil, forState: UIControlState.Normal)
 		button1.setImage(nil, forState: UIControlState.Normal)
 		button2.setImage(nil, forState: UIControlState.Normal)
@@ -103,52 +65,11 @@ class GameBoardView: UIView {
 		button7.setImage(nil, forState: UIControlState.Normal)
 		button8.setImage(nil, forState: UIControlState.Normal)
 	}
-
-	func didCurrentPlayerWin(currentPosition: Int)-> Bool {
-		for combination in winningCombinations {
-			if(combination.contains(currentPosition)) {
-				var set = Set<Player>()
-				for index in combination {
-					set.insert(gameState[index])
-				}
-				if set.count == 1 {
-					return true
-				}
-			}
-		}
-		return false
-	}
-
-	func isGameOver()-> Bool {
-		if !gameState.contains(Player.none) && winningPlayer == .none {
-			//Match drawn
-			return true
-		}else if winningPlayer != .none {
-			// Someone won
-			return true
-		}else {
-			return false
-		}
-	}
+	
 	@IBAction func buttonPressed(sender: UIButton) {
 		let buttonIndex = sender.tag
-		if isGameOver() {
-			return
-		}else if gameState.contains(.none) && winningPlayer == .none {
-			markPosition(buttonIndex, player: currentPlayer)
-			if didCurrentPlayerWin(buttonIndex) {
-				winningPlayer = currentPlayer
-				if let gameOverCompletion = gameOverCompletion {
-					gameOverCompletion(winningPlayer: currentPlayer)
-				}
-
-			}
-		}else {
-			if let gameOverCompletion = gameOverCompletion {
-				gameOverCompletion(winningPlayer: .none)
-			}
-
+		if let delegate = delegate {
+			delegate.handleButtonPress(buttonIndex)
 		}
-		currentPlayer = currentPlayer == .first ? .second : .first
 	}
 }

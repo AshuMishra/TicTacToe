@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  TicTacToe
 //
-//  Created by Susmita Horrow on 09/01/16.
+//  Created by Ashutosh Mishra on 09/01/16.
 //  Copyright © 2016 Ashutosh. All rights reserved.
 //
 
@@ -19,6 +19,7 @@ class ViewController: UIViewController {
 	@IBOutlet weak var PlayerTurnsLabel: UILabel!
 	@IBOutlet weak var playAgainButton: UIButton!
 	@IBOutlet weak var gameBoardView: GameBoardView!
+	var game = Game()
 	var matches = [GameHistory]()
 	var goNumber = 1
 	var lastPlayer = Player.first
@@ -27,7 +28,10 @@ class ViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		gameBoardView.gameOverCompletion = {[weak self] winner in
+		game.gameBoard = gameBoardView
+		game.isTwoPlayerGame = false
+		game.currentPlayer = .first
+		game.gameOverCompletion = {[weak self] winner in
 			guard let weakSelf = self else {
 				return
 			}
@@ -45,7 +49,7 @@ class ViewController: UIViewController {
 				 weakSelf.lastPlayer = Player.second
 				weakSelf.PlayerTurnsLabel.text = "Player 2 won"
 			}else {
-				weakSelf.lastPlayer = weakSelf.gameBoardView.currentPlayer
+				weakSelf.lastPlayer = weakSelf.game.currentPlayer
 				weakSelf.PlayerTurnsLabel.text = "Match Drawn"
 			}
 		}
@@ -62,11 +66,11 @@ class ViewController: UIViewController {
 	}
 
 	@IBAction func playAgainButtonPressed(sender: UIButton){
-		gameBoardView.currentPlayer = lastPlayer
+		game.currentPlayer = lastPlayer
 		startNew()
 		goNumber = 1
 		label.hidden = true
-		gameBoardView.startGame()
+		game.startGame()
 	}
 }
 
