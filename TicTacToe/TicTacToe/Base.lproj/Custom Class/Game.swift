@@ -43,6 +43,7 @@ class Game: GameBoardViewDelegate {
 	var currentPlayer: Player = Player.first
 	var winningPlayer: Player = Player.none
 	var gameOverCompletion: GameOverCompletion?
+	var playerLastTapped: Player?
 
 	private var gameState = [Player](count: 9, repeatedValue: .none)
 	private let winningCombinations = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
@@ -74,6 +75,13 @@ class Game: GameBoardViewDelegate {
 			return false
 		}
 	}
+
+	func firstMoveByAI() {
+		startGame()
+		if let move = casualMove() {
+			mark(move)
+		}
+	}
 	
 	private func mark(let position: Int) {
 		if gameState[position] != .none {
@@ -84,18 +92,10 @@ class Game: GameBoardViewDelegate {
 		}else if gameState.contains(.none) && winningPlayer == .none {
 			gameState[position] = currentPlayer
 			gameBoard.markPosition(position, player: currentPlayer)
-			if didCurrentPlayerWin(position) {
-				winningPlayer = currentPlayer
-				if let gameOverCompletion = gameOverCompletion {
-					gameOverCompletion(winningPlayer: currentPlayer)
-				}
-			}
-		}else {
-				if let gameOverCompletion = gameOverCompletion {
-					gameOverCompletion(winningPlayer: .none)
-				}
 		}
+		checkWinningPosition(currentPlayer,index: position)
 		currentPlayer = currentPlayer == .first ? .second : .first
+
 	}
 
 	private func didCurrentPlayerWin(currentPosition: Int)-> Bool {
@@ -211,12 +211,27 @@ class Game: GameBoardViewDelegate {
 	}
 
 	func handleButtonPress(index: Int) {
+		playerLastTapped = currentPlayer
 		mark(index)
 		if isTwoPlayerGame == false {
-		// handle move for computer
-		if let nextPosition = nextPossibleMove() {
-			mark(nextPosition)
+			playerLastTapped = currentPlayer
+			// handle move for computer
+			if let nextPosition = nextPossibleMove() {
+				mark(nextPosition)
+			}
 		}
-	 }
+	}
+
+	func checkWinningPosition(player: Player, index: Int) {
+		if didCurrentPlayerWin(index) {
+			winningPlayer = currentPlayer
+			if let gameOverCompletion = gameOverCompletion {
+				gameOverCompletion(winningPlayer: winningPlayer)
+			}
+		}else if isGameOver() {
+			if let gameOverCompletion = gameOverCompletion {
+				gameOverCompletion(winningPlayer: .none)
+			}
+		}
 	}
 }

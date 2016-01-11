@@ -19,12 +19,12 @@ class ViewController: UIViewController {
 	@IBOutlet weak var PlayerTurnsLabel: UILabel!
 	@IBOutlet weak var playAgainButton: UIButton!
 	@IBOutlet weak var gameBoardView: GameBoardView!
+	@IBOutlet weak var segmentControl: UISegmentedControl!
 	var game = Game()
 	var matches = [GameHistory]()
-	var goNumber = 1
-	var lastPlayer = Player.first
-	var winningCombinations = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
 	var gameCount = 0
+	var nextTurn = Player.first
+	var playerAI = Player.second
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -38,19 +38,18 @@ class ViewController: UIViewController {
 			weakSelf.gameCount++
 			let history = GameHistory(gameNumber: weakSelf.gameCount, winner: winner)
 			weakSelf.matches.append(history)
-			print("***********************\n")
 			for match in weakSelf.matches {
 				print("Matches = \(match)")
 			}
 			if winner == Player.first {
-				weakSelf.lastPlayer = Player.first
 				weakSelf.PlayerTurnsLabel.text = "Player 1 won"
+				weakSelf.nextTurn = Player.first
 			}else if winner == Player.second {
-				 weakSelf.lastPlayer = Player.second
 				weakSelf.PlayerTurnsLabel.text = "Player 2 won"
+				weakSelf.nextTurn = Player.second
 			}else {
-				weakSelf.lastPlayer = weakSelf.game.currentPlayer
 				weakSelf.PlayerTurnsLabel.text = "Match Drawn"
+				weakSelf.nextTurn = weakSelf.game.playerLastTapped!
 			}
 		}
 		// Do any additional setup after loading the view, typically from a nib.
@@ -61,16 +60,26 @@ class ViewController: UIViewController {
 		// Dispose of any resources that can be recreated.
 	}
 
-	func startNew() {
+	@IBAction func playAgainButtonPressed(sender: UIButton) {
+		game.currentPlayer = nextTurn
 		PlayerTurnsLabel.text = "Get 3 in a Row to Win"
+		label.hidden = true
+		
+		if game.isTwoPlayerGame == false {
+			if nextTurn == playerAI { // AI won
+				game.currentPlayer = nextTurn
+				game.firstMoveByAI()
+			} else {
+				game.startGame()
+			}
+		}else {
+			game.startGame()
+		}
 	}
 
-	@IBAction func playAgainButtonPressed(sender: UIButton){
-		game.currentPlayer = lastPlayer
-		startNew()
-		goNumber = 1
-		label.hidden = true
-		game.startGame()
+	@IBAction func handlePlayerMode(sender: AnyObject) {
+		game.isTwoPlayerGame =  segmentControl.selectedSegmentIndex == 1
+		playAgainButtonPressed(playAgainButton)
 	}
 }
 
