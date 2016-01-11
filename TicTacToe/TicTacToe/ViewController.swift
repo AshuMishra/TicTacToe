@@ -32,7 +32,7 @@ struct GameHistory {
 
 class ViewController: UIViewController {
 
-	@IBOutlet weak var PlayerTurnsLabel: UILabel!
+	@IBOutlet weak var playerTurnsLabel: UILabel!
 	@IBOutlet weak var playAgainButton: UIButton!
 	@IBOutlet weak var segmentControl: UISegmentedControl!
 	@IBOutlet weak var gameBoardView: GameBoardView!
@@ -57,15 +57,15 @@ class ViewController: UIViewController {
 			var history = weakSelf.matches.last
 			weakSelf.gameCount++
 			if winner == Player.first {
-				weakSelf.PlayerTurnsLabel.text = "You"
+				weakSelf.playerTurnsLabel.text = "You won"
 				weakSelf.nextTurn = Player.first
 				history!.gameResults.append(GameResult.win)
 			}else if winner == Player.second {
-				weakSelf.PlayerTurnsLabel.text = "Player 2 won"
+				weakSelf.playerTurnsLabel.text = weakSelf.game.isTwoPlayerGame ?  "Player 2 won" : "Computer won"
 				weakSelf.nextTurn = Player.second
 				history!.gameResults.append(GameResult.lose)
 			}else {
-				weakSelf.PlayerTurnsLabel.text = "Match Drawn"
+				weakSelf.playerTurnsLabel.text = "Match Drawn"
 				weakSelf.nextTurn = weakSelf.game.playerLastTapped!
 				history!.gameResults.append(GameResult.draw)
 			}
@@ -81,7 +81,7 @@ class ViewController: UIViewController {
 
 	@IBAction func playAgainButtonPressed(sender: UIButton) {
 		game.currentPlayer = nextTurn
-		PlayerTurnsLabel.text = "Get 3 in a Row to Win"
+		playerTurnsLabel.text = "Get 3 in a Row to Win"
 		
 		if game.isTwoPlayerGame == false {
 			if nextTurn == playerAI { // AI won
