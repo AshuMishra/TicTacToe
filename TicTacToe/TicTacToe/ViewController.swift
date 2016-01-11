@@ -8,18 +8,35 @@
 
 import UIKit
 
+enum GameResult {
+	case win
+	case lose
+	case draw
+
+	var stringForResult: String {
+		switch self {
+		case .win:
+			return "Won"
+		case .lose:
+			return "Lost"
+		case .draw:
+			return "Draw"
+		}
+	}
+}
+
 struct GameHistory {
-	var gameNumber: Int
-	var winner : Player
+	var opponentName = String()
+	var gameResults = [GameResult]()
 }
 
 class ViewController: UIViewController {
 
-	@IBOutlet weak var label: UILabel!
 	@IBOutlet weak var PlayerTurnsLabel: UILabel!
 	@IBOutlet weak var playAgainButton: UIButton!
-	@IBOutlet weak var gameBoardView: GameBoardView!
 	@IBOutlet weak var segmentControl: UISegmentedControl!
+	@IBOutlet weak var gameBoardView: GameBoardView!
+
 	var game = Game()
 	var matches = [GameHistory]()
 	var gameCount = 0
@@ -28,31 +45,33 @@ class ViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		game.gameBoard = gameBoardView
 		game.isTwoPlayerGame = false
+		game.gameBoard = gameBoardView
 		game.currentPlayer = .first
+		segmentControl.selectedSegmentIndex = 0
+		startMatch()
 		game.gameOverCompletion = {[weak self] winner in
 			guard let weakSelf = self else {
 				return
 			}
+			var history = weakSelf.matches.last
 			weakSelf.gameCount++
-			let history = GameHistory(gameNumber: weakSelf.gameCount, winner: winner)
-			weakSelf.matches.append(history)
-			for match in weakSelf.matches {
-				print("Matches = \(match)")
-			}
 			if winner == Player.first {
 				weakSelf.PlayerTurnsLabel.text = "Player 1 won"
 				weakSelf.nextTurn = Player.first
+				history!.gameResults.append(GameResult.win)
 			}else if winner == Player.second {
 				weakSelf.PlayerTurnsLabel.text = "Player 2 won"
 				weakSelf.nextTurn = Player.second
+				history!.gameResults.append(GameResult.lose)
 			}else {
 				weakSelf.PlayerTurnsLabel.text = "Match Drawn"
 				weakSelf.nextTurn = weakSelf.game.playerLastTapped!
+				history!.gameResults.append(GameResult.draw)
 			}
+			weakSelf.matches.removeLast()
+			weakSelf.matches.append(history!)
 		}
-		// Do any additional setup after loading the view, typically from a nib.
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -63,7 +82,6 @@ class ViewController: UIViewController {
 	@IBAction func playAgainButtonPressed(sender: UIButton) {
 		game.currentPlayer = nextTurn
 		PlayerTurnsLabel.text = "Get 3 in a Row to Win"
-		label.hidden = true
 		
 		if game.isTwoPlayerGame == false {
 			if nextTurn == playerAI { // AI won
@@ -79,7 +97,21 @@ class ViewController: UIViewController {
 
 	@IBAction func handlePlayerMode(sender: AnyObject) {
 		game.isTwoPlayerGame =  segmentControl.selectedSegmentIndex == 1
+		startMatch()
 		playAgainButtonPressed(playAgainButton)
+	}
+
+	func startMatch() {
+		let player = game.isTwoPlayerGame ?  "Player 2" : "Computer"
+		let history = GameHistory(opponentName: player, gameResults: [])
+		matches.append(history)
+	}
+
+	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+		if segue.identifier == "viewScore" {
+			let destinationVC = segue.destinationViewController as! ScoreViewController
+			destinationVC.matches = matches
+		}
 	}
 }
 

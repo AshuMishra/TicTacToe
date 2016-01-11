@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4E3D6B571C42A37F0002DE23 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3D6B561C42A37F0002DE23 /* Game.swift */; };
+		4E3D6B591C43862C0002DE23 /* ScoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3D6B581C43862C0002DE23 /* ScoreTableViewController.swift */; };
 		4E9824521C4125BF00B620DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9824511C4125BF00B620DA /* AppDelegate.swift */; };
 		4E9824541C4125BF00B620DA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9824531C4125BF00B620DA /* ViewController.swift */; };
 		4E9824571C4125BF00B620DA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E9824551C4125BF00B620DA /* Main.storyboard */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		4E3D6B561C42A37F0002DE23 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Game.swift; path = "Base.lproj/Custom Class/Game.swift"; sourceTree = "<group>"; };
+		4E3D6B581C43862C0002DE23 /* ScoreTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreTableViewController.swift; sourceTree = "<group>"; };
 		4E98244E1C4125BF00B620DA /* TicTacToe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TicTacToe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E9824511C4125BF00B620DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4E9824531C4125BF00B620DA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				4E9824531C4125BF00B620DA /* ViewController.swift */,
+				4E3D6B581C43862C0002DE23 /* ScoreTableViewController.swift */,
 			);
 			name = "Controller Class";
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				4E9824541C4125BF00B620DA /* ViewController.swift in Sources */,
 				4E9824521C4125BF00B620DA /* AppDelegate.swift in Sources */,
 				4E9824851C413C6B00B620DA /* GameBoardView.swift in Sources */,
+				4E3D6B591C43862C0002DE23 /* ScoreTableViewController.swift in Sources */,
 				4E3D6B571C42A37F0002DE23 /* Game.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
