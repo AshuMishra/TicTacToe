@@ -57,7 +57,7 @@ class ViewController: UIViewController {
 			var history = weakSelf.matches.last
 			weakSelf.gameCount++
 			if winner == Player.first {
-				weakSelf.PlayerTurnsLabel.text = "Player 1 won"
+				weakSelf.PlayerTurnsLabel.text = "You"
 				weakSelf.nextTurn = Player.first
 				history!.gameResults.append(GameResult.win)
 			}else if winner == Player.second {

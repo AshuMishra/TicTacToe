@@ -37,6 +37,7 @@ enum Player {
 	}
 }
 
+
 typealias GameOverCompletion = (winningPlayer: Player) -> Void
 
 class Game: GameBoardViewDelegate {
@@ -106,6 +107,7 @@ class Game: GameBoardViewDelegate {
 					set.insert(gameState[index])
 				}
 				if set.count == 1 {
+					gameBoard.drawLine(combination)
 					return true
 				}
 			}

@@ -308,6 +308,15 @@
                                     <outlet property="button6" destination="GrN-vp-EdA" id="aSC-Ap-g6d"/>
                                     <outlet property="button7" destination="hXd-Th-H27" id="Ifl-aD-3pe"/>
                                     <outlet property="button8" destination="ipY-KU-RJj" id="U8q-uz-Pgy"/>
+                                    <outletCollection property="buttonCollection" destination="rQQ-Nw-VU1" id="GD7-7H-MSa"/>
+                                    <outletCollection property="buttonCollection" destination="6IT-Nn-Ecx" id="k9c-4A-9ZU"/>
+                                    <outletCollection property="buttonCollection" destination="Uq0-7d-sZA" id="9Gv-9p-f3q"/>
+                                    <outletCollection property="buttonCollection" destination="Rev-uu-Afx" id="TQ1-zN-rfw"/>
+                                    <outletCollection property="buttonCollection" destination="Ywf-Mf-mXT" id="sBx-2g-vSS"/>
+                                    <outletCollection property="buttonCollection" destination="IdK-A6-z3T" id="DQX-B0-5zr"/>
+                                    <outletCollection property="buttonCollection" destination="GrN-vp-EdA" id="LWB-aW-sNq"/>
+                                    <outletCollection property="buttonCollection" destination="hXd-Th-H27" id="1ha-V4-phj"/>
+                                    <outletCollection property="buttonCollection" destination="ipY-KU-RJj" id="jRm-Yx-czC"/>
                                 </connections>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get 3 in a Row to Win" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="okQ-Ct-GQg">

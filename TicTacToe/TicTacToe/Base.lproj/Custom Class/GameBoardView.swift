@@ -25,8 +25,10 @@ class GameBoardView: UIView {
 	@IBOutlet weak var button6: UIButton!
 	@IBOutlet weak var button7: UIButton!
 	@IBOutlet weak var button8: UIButton!
+	@IBOutlet var buttonCollection: [UIButton]!
 
 	var delegate: GameBoardViewDelegate?
+	private var line = CAShapeLayer()
 
 	func markPosition(position: Int, player: Player) {
 		let image = player.image()
@@ -64,8 +66,32 @@ class GameBoardView: UIView {
 		button6.setImage(nil, forState: UIControlState.Normal)
 		button7.setImage(nil, forState: UIControlState.Normal)
 		button8.setImage(nil, forState: UIControlState.Normal)
+		line.strokeColor = UIColor.clearColor().CGColor
 	}
-	
+
+	func drawLine(combination: [Int]) {
+		var points = [CGPoint]()
+		for index in combination {
+			let button = buttonCollection.filter({ (button) -> Bool in
+				return button.tag == index
+			}).first
+			points.append(CGPoint(x: CGRectGetMidX(button!.frame), y: CGRectGetMidY(button!.frame)))
+		}
+		drawLine(points[0], end: points[2])
+	}
+
+	func drawLine(start: CGPoint, end: CGPoint) {
+		let linePath = UIBezierPath()
+		linePath.moveToPoint(start)
+		linePath.addLineToPoint(end)
+		line.path = linePath.CGPath
+		line.fillColor = nil
+		line.opacity = 1.0
+		line.lineWidth = 10.0
+		line.strokeColor = UIColor.blackColor().CGColor
+		layer.addSublayer(line)
+	}
+
 	@IBAction func buttonPressed(sender: UIButton) {
 		let buttonIndex = sender.tag
 		if let delegate = delegate {
